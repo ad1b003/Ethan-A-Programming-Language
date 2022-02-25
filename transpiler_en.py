@@ -1,6 +1,4 @@
-'''
-    Lexer for programming language Ethan
-'''
+# Transpiler for scripting language : Ethan
 
 # Imports
 import re
@@ -407,13 +405,13 @@ class Parser:
             if not _var in self.declared_vars_exp:
                 self.abort("Worng Type-Casting: " + "'" + _var + "'" + ' is not declared with ' + _type + ' type!')
         elif _type == 'int':
-            if not _var in self.declared_vars_int:
+            if not _var in self.declared_vars_int and not _var in self.declared_vars_long:
                 self.abort("Worng Type-Casting: " + "'" + _var + "'" + ' is not declared with ' + _type + ' type!')
         elif _type == 'float':
-            if not _var in self.declared_vars_float:
+            if not _var in self.declared_vars_float and not _var in self.declared_vars_double and not _var in self.declared_vars_exp:
                 self.abort("Worng Type-Casting: " + "'" + _var + "'" + ' is not declared with ' + _type + ' type!')
         elif _type == 'double':
-            if not _var in self.declared_vars_double:
+            if not _var in self.declared_vars_double and not _var in self.declared_vars_exp:
                 self.abort("Worng Type-Casting: " + "'" + _var + "'" + ' is not declared with ' + _type + ' type!')
         else:
             self.abort("Unexpected Data-Type: " + _type)
@@ -957,8 +955,11 @@ class Transpiler:
         except Exception as e:
             return "Error: " + str(e)
 
+'''
 
-data = """
+# This is for debuging process only.
+
+test_data = """
 print "Enter 3 numbers:"
 get x,y,z as int
 
@@ -972,18 +973,7 @@ end
 print 'The End' !end ''
 """
 
-test = """
-# Methematical preceding check
-declare a,b,c as int
-now a = 1, b = 2, c = 3
-print a+b*c, (a+b)*c
-"""
-
-"""
-
-#This is for debuging process only.
-
-lexer = Lexer(test)
+lexer = Lexer(test_data)
 tokens = lexer.tokenizer()
 #print(tokens)
 
@@ -992,7 +982,7 @@ parser = Parser(tokens, transpiler)
 parser.parse()
 transpiler.transpile()
 
-"""
+'''
 
 """
     * Fix bug in print statement
